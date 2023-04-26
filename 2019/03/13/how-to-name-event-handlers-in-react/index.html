@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>How to name your event handlers in React | arzke&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="There might be a better naming than handleClick">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to name your event handlers in React">
+<meta property="og:url" content="https://arzke.github.io/blog/2019/03/13/how-to-name-event-handlers-in-react/index.html">
+<meta property="og:site_name" content="arzke&#39;s blog">
+<meta property="og:description" content="There might be a better naming than handleClick">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-03-13T08:26:15.104Z">
+<meta property="article:modified_time" content="2023-04-26T06:37:20.508Z">
+<meta property="article:author" content="Bruno Arsene">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="clean-code">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="arzke's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/blog/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/blog/" id="logo">arzke&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/blog/" id="subtitle">programming stuff</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://arzke.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-how-to-name-event-handlers-in-react" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2019/03/13/how-to-name-event-handlers-in-react/" class="article-date">
+  <time class="dt-published" datetime="2019-03-13T08:26:15.104Z" itemprop="datePublished">2019-03-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      How to name your event handlers in React
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Code examples can be confusing and misleading, especially when we assume they’re following some kind of best practices<br>and that we can blindly rely on them.<br>But we must keep in mind that code samples are not meant to be clean, but rather to demonstrate something with the<br>minimal amount of code.</p>
+<p>Therefore, considering that examples show us the right way to do something<br>is not relevant. One good illustration of this is how people usually name event handlers<br>in React. Here is a piece of code <a target="_blank" rel="noopener" href="https://reactjs.org/docs/handling-events.html">you might be familiar with</a>:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">handleClick</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// This function does something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;handleClick&#125;</span>&gt;</span>Foo<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The name of the component and the label of the button have been<br>deliberately set to Foo because they’re not relevant to the point I’m making here.</p>
+<h2 id="So-what-is-wrong-with-this-example"><a href="#So-what-is-wrong-with-this-example" class="headerlink" title="So what is wrong with this example?"></a>So what is wrong with this example?</h2><p>The problem here is that <strong>handleClick doesn’t reveal anything about what the function does</strong>.<br>Instead, it tells us how the function is used. Still, it happens that when you ask someone why they name<br>their handler this way, the answer you get is “<em>everybody does this</em>“. Unfortunately, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Argumentum_ad_populum">this cannot be considered a valid<br>argument</a>.</p>
+<p>You might remember from Uncle Bob’s <em>Clean Code</em> the following rule:</p>
+<blockquote>
+<p>Write explicit code – naming variables and methods can reveal the entire intent of the code</p>
+</blockquote>
+<p>Here, our code is not explicit. We know that <em>something</em> is happening when clicking the button, but we have<br>no idea <em>what</em> it is.</p>
+<p>Another problem here is that we’re tightly coupling the function to its caller, meaning that<br>if we decide to perform the same action on a different event, we have to<br>rename the function. This would make no sense as the body of the function hasn’t changed.</p>
+<p>Finally, what should we do if our component renders two buttons with different click handlers? How should we name them?</p>
+<h2 id="The-solution"><a href="#The-solution" class="headerlink" title="The solution"></a>The solution</h2><p>Name your function after what it does.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">clearForm</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// This function does something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">MySuperComponent</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;clearForm&#125;</span>&gt;</span>Foo<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Event handlers are nothing more than functions, so here the same rules apply for the naming.<br>Receiving an event in their parameters does not make them any special.<br>If in the future your function does something different then it makes perfect sense<br>to rename it. </p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Finding a good name that reveals the intent of your code is often tricky. But using a<br>name that is too generic or doesn’t answer the <em>what</em> is by no means better.<br>Everything that is said in this post might seem obvious, but I’m still surprised to see how many people keep using<br>bad names for their handlers even in production code. This is a quick win.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://arzke.github.io/blog/2019/03/13/how-to-name-event-handlers-in-react/" data-id="clgxbqc4p0000iqoi95vvhitr" data-title="How to name your event handlers in React" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/clean-code/" rel="tag">clean-code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/react/" rel="tag">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/clean-code/" rel="tag">clean-code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/react/" rel="tag">react</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/clean-code/" style="font-size: 10px;">clean-code</a> <a href="/blog/tags/react/" style="font-size: 10px;">react</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2019/03/13/how-to-name-event-handlers-in-react/">How to name your event handlers in React</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Bruno Arsene<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/blog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/blog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/blog/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/blog/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/blog/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
